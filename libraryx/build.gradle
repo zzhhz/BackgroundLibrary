@@ -6,10 +6,6 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 33
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'background-proguard-rules.pro'
     }
 
     buildTypes {
@@ -38,3 +34,4 @@ dependencies {
 repositories {
     mavenCentral()
 }
+apply from: '../publication.gradle'

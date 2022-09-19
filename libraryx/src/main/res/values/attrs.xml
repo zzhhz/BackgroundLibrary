@@ -72,6 +72,7 @@
 
         <attr name="bl_unCheckable_stroke_color" format="color" />
         <attr name="bl_unChecked_stroke_color" format="color" />
+        <attr name="bl_unChecked_stroke_width" format="dimension" />
         <attr name="bl_unEnabled_stroke_color" format="color" />
         <attr name="bl_unSelected_stroke_color" format="color" />
         <attr name="bl_unPressed_stroke_color" format="color" />
@@ -278,6 +279,7 @@
 
         <attr name="bl_unCheckable_stroke_color" />
         <attr name="bl_unChecked_stroke_color" />
+        <attr name="bl_unChecked_stroke_width" />
         <attr name="bl_unEnabled_stroke_color" />
         <attr name="bl_unSelected_stroke_color" />
         <attr name="bl_unPressed_stroke_color" />

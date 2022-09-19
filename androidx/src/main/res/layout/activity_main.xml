@@ -13,13 +13,52 @@
         tools:context=".MainActivity"
         tools:ignore="MissingPrefix,HardcodedText">
 
+        <com.noober.background.view.BLCheckBox
+            android:id="@+id/cb_baby_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            android:button="@null"
+            android:padding="5dp"
+            android:text="这是一个测试按理"
+            app:bl_checked_solid_color="#FF0000"
+            app:bl_checked_textColor="#FFFFFF"
+            app:bl_corners_radius="5dp"
+            app:bl_stroke_color="#00ff00"
+            app:bl_stroke_width="2dp"
+            app:bl_unChecked_solid_color="#666666"
+            app:bl_unChecked_stroke_color="#ffff00"
+            app:bl_unChecked_textColor="#111111" />
+
+
+        <com.noober.background.view.BLCheckBox
+            android:id="@+id/cb_baby_check2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            android:button="@null"
+            android:padding="5dp"
+            android:text="这是一个测试按理2"
+            app:bl_checked_drawable="@drawable/shape_blue_stroke"
+            app:bl_checked_textColor="#FFFFFF"
+            app:bl_corners_radius="5dp"
+            app:bl_unCheckable_drawable="@drawable/shape_white_stroke"
+            app:bl_unChecked_textColor="#111111" />
+
+
         <TextView
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="dasdasdads"
-            app:bl_text_gradient_orientation="horizontal"
-            app:bl_text_gradient_startColor="@color/colorAccent"
             app:bl_text_gradient_endColor="@android:color/holo_green_dark"
-            android:layout_height="wrap_content"/>
+            app:bl_text_gradient_orientation="horizontal"
+            app:bl_text_gradient_startColor="@color/colorAccent" />
 
         <com.noober.background.view.BLTextView
             android:layout_width="match_parent"
