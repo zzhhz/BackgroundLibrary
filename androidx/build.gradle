@@ -42,8 +42,4 @@ dependencies {
     implementation project(':libraryx')
 }
 
-repositories{
-    maven { url 'https://dl.bintray.com/noober/maven' }
-}
-
 
