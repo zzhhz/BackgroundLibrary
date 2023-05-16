@@ -1,36 +1,18 @@
 # BackgroudLibrary
-A framework for directly generating shape through Tags, no need to write shape.xml again（通过标签直接生成shape，无需再写shape.xml）
 
+fork from https://github.com/JavaNoober/BackgroundLibrary.git
 
-![](https://user-gold-cdn.xitu.io/2018/9/11/165c6e5c0cff0548?w=681&h=233&f=png&s=31240)
+主要是为了定制依赖库。
 
-Add this to your app's build.gradle：
+## 版本：![avatar](https://img.shields.io/badge/HViews-1.7.6-brightgreen) ![avatar](https://img.shields.io/badge/Maven_Central-1.7.6-brightgreen)
 
-    allprojects {
-        repositories {
-            ...
-            maven { url 'https://jitpack.io' }
-        }
-    }
+androidx：
 
-    implementation "androidx.appcompat:appcompat:$supportVersion"
-    implementation 'com.github.JavaNoober.BackgroundLibrary:library:1.7.6'
+    implementation 'com.github.zzhhz.BackgroundLibrary:libraryx:1.7.6'
 
-if use androidx：  
-
-    allprojects {
-        repositories {
-            ...
-            maven { url 'https://jitpack.io' }
-        }
-    }
-
-    implementation "androidx.appcompat:appcompat:$supportVersion"
-    implementation 'com.github.JavaNoober.BackgroundLibrary:libraryx:1.7.6'
-
- 
 ## Example effect
-show more in [wiki](https://github.com/JavaNoober/BackgroundLibrary/wiki)  
+
+show more in [wiki](https://github.com/JavaNoober/BackgroundLibrary/wiki)
 
 ![](https://user-gold-cdn.xitu.io/2018/9/12/165ce13d4c0a176f?w=286&h=606&f=gif&s=807047)
 
@@ -38,17 +20,21 @@ Automatic code prompt by Live Templates
 ![](https://raw.githubusercontent.com/JavaNoober/BackgroundLibrary/master/test/属性提示.gif)
 
 ## How to use
-1、before version 1.5.0, Calling code before the 'super.onCreate' in BaseActivity, after 1.5.0 no need more
-    
+
+1、before version 1.5.0, Calling code before the 'super.onCreate' in BaseActivity, after 1.5.0 no
+need more
     BackgroundLibrary.inject(context);
-    
+
 2、Add the attributes directly in the layout
 
 [Blog introduction](https://github.com/JavaNoober/BackgroundLibrary/blob/master/%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D.md)
 
 ## Custom attributes supported
+
 The following are all custom attributes that are exactly the same as shape and selector.
+
 ### shape
+
 All attributes of shape are supported. The naming rule is **'tag name'_'tag attribute name'**:
 
 | name | category |
@@ -77,8 +63,8 @@ All attributes of shape are supported. The naming rule is **'tag name'_'tag attr
 |bl_stroke_dashGap|dimension|
 |bl_position|left、right、top、bottom|
 
-
 ### selector
+
 All attributes of selector are supported：
 
 | name | category |
@@ -122,7 +108,7 @@ All attributes of selector are supported：
 |bl_checked_button_drawable|color、reference|
 |bl_unChecked_button_drawable|color、reference|
 
-|bl_multi_text_selector1| String|   |
+|bl_multi_text_selector1| String| |
 |bl_multi_text_selector2| String| 同上|
 |bl_multi_text_selector3| String| 同上|
 |bl_multi_text_selector4| String| 同上|
@@ -131,14 +117,13 @@ All attributes of selector are supported：
 
 bl_multi_text_selector的使用方法：
 支持selector的一条属性设置同时设置多个状态的写法,内容规则为以",
-"为分隔符，最后一项为颜色资源id的名字，可选状态为state_checkable，state_checked，state_enabled，state_selected，state_pressed，state_focused，state_hovered
+"
+为分隔符，最后一项为颜色资源id的名字，可选状态为state_checkable，state_checked，state_enabled，state_selected，state_pressed，state_focused，state_hovered
 ，state_activated，默认为true，如果为false则在前面加上"-"即可，例如-state_checkable
 
 效果例子如下：
 
 ![](https://raw.githubusercontent.com/JavaNoober/BackgroundLibrary/master/images/mulit_text.gif)
-
-
 
         <com.noober.background.view.BLTextView
             android:padding="0dp"
@@ -156,8 +141,8 @@ bl_multi_text_selector的使用方法：
             app:bl_multi_text_selector2="-state_pressed,-state_enabled,#DDA0DD"
             app:bl_multi_text_selector3="-state_pressed,state_enabled,#DDA0DD"/>
 
-
 ### attributes about anim：
+
 | 名称 | 类型 |
 |---|---|
 |bl_oneshot|only show once|
@@ -185,6 +170,7 @@ bl_multi_text_selector的使用方法：
 |bl_frame_drawable_item14|Frame 14 animation|
 
 ### other（need sdk 27 and above）
+
 | name | category |remark|
 |---|---|---|
 |bl_ripple_enable|boolean|ensure that the ripple effect is enabled|
@@ -216,9 +202,10 @@ bl_multi_text_selector的使用方法：
 
 ### generate drawable by code(above v1.3.0)
 
-detail see :[DrawableCreator.Build](https://github.com/JavaNoober/BackgroundLibrary/blob/develop/library/src/main/java/com/noober/background/drawable/DrawableCreator.java)
-example:  
-    
+detail
+see :[DrawableCreator.Build](https://github.com/JavaNoober/BackgroundLibrary/blob/develop/library/src/main/java/com/noober/background/drawable/DrawableCreator.java)
+example:
+
     //设置button圆角背景
     Drawable drawable = new DrawableCreator.Builder().setCornersRadius(dip2px(20))
                     .setGradientAngle(0).setGradientColor(Color.parseColor("#63B8FF"), Color.parseColor("#4F94CD")).build();
@@ -229,6 +216,7 @@ example:
     tvTest1.setTextColor(colors);
 
 ### bl_multi_selector属性
+
 | 名称 | 类型 |备注|
 |---|---|---|
 |bl_multi_selector1| String| |
@@ -238,14 +226,18 @@ example:
 |bl_multi_selector5| String| 同上|
 |bl_multi_selector6| String| 同上|
 
-
-Supports the selector for a property setting that sets multiple states at the same time. The content rules split with ",
-"For the delimiter, the last item is the name of the drawable resource id, and the optional states are state_checkable, state_checked, state_enabled, state_selected, state_pressed, state_focused, state_hointernet
- , the default value of state_activated is true, and "-" after false can be activated, such as -state_checkable
+Supports the selector for a property setting that sets multiple states at the same time. The content
+rules split with ",
+"For the delimiter, the last item is the name of the drawable resource id, and the optional states
+are state_checkable, state_checked, state_enabled, state_selected, state_pressed, state_focused,
+state_hointernet
+, the default value of state_activated is true, and "-" after false can be activated, such as
+-state_checkable
 
 bl_multi_selector使用示例：
-In the next example, test_sel1, the item that has android:state_pressed="true" android:state_focused="true", then bl_multi_selector1=" app:bl_multi_selector1="state_pressed,state_focused,test_bg_sel"
-
+In the next example, test_sel1, the item that has android:state_pressed="true" android:
+state_focused="true", then bl_multi_selector1=" app:bl_multi_selector1="
+state_pressed,state_focused,test_bg_sel"
 
     <EditText
         android:layout_width="300dp"
@@ -282,7 +274,6 @@ In the next example, test_sel1, the item that has android:state_pressed="true" a
         app:bl_multi_selector1="state_pressed,state_focused,test_bg_sel"
         app:bl_multi_selector2="-state_pressed,-state_focused,test_bg_sel2"/>
 
-
 ## example
 
 1.stroke+corner+solid
@@ -298,6 +289,7 @@ In the next example, test_sel1, the item that has android:state_pressed="true" a
         app:bl_solid_color="#E3B666"
         app:bl_stroke_color="#8c6822"
         app:bl_stroke_width="2dp" />
+
 equals to
 
     <shape xmlns:android="http://schemas.android.com/apk/res/android">
@@ -305,7 +297,7 @@ equals to
         <solid android:color="#E3B666"/>
         <stroke android:color="#E3B666" android:width="2dp"/>
     </shape>
-    
+
 2、gradient
 
     <shape xmlns:android="http://schemas.android.com/apk/res/android">
@@ -314,7 +306,7 @@ equals to
                   android:startColor="#63B8FF"
                   android:endColor="#4F94CD"/>
     </shape>
-    
+
 equals to
 
      <Button
@@ -331,8 +323,8 @@ equals to
         app:bl_gradient_angle="0"
         app:bl_gradient_endColor="#4F94CD"
         app:bl_gradient_startColor="#63B8FF" />
-    
- the effect of click
+
+the effect of click
 
 ![](https://user-gold-cdn.xitu.io/2018/9/12/165ce0e7226b6e05?w=264&h=68&f=gif&s=293851)
 
@@ -343,8 +335,8 @@ the first：
     android:layout_marginTop="5dp"
     app:bl_pressed_drawable="@drawable/circle_like_pressed"
     app:bl_unPressed_drawable="@drawable/circle_like_normal" />
-    
-equals:  
+
+equals:
 
     <selector xmlns:android="http://schemas.android.com/apk/res/android">
         <item android:state_pressed="true"
@@ -352,8 +344,7 @@ equals:
         <item android:state_pressed="false"
             android:drawable="@drawable/circle_like_normal" />
     </selector>
-    
-    
+
 the second：
 
     <Button
@@ -372,11 +363,11 @@ the second：
             app:bl_stroke_color="#8c6822"
             app:bl_stroke_width="2dp"
             app:bl_unPressed_drawable="#7CFC00" />
-            
-In fact, it is basically the same as shape and selector.  
+
+In fact, it is basically the same as shape and selector.
 
 3.Click text discoloration  
-![](https://user-gold-cdn.xitu.io/2018/9/19/165f131f7e85b1e7?w=289&h=61&f=gif&s=8828)  
+![](https://user-gold-cdn.xitu.io/2018/9/19/165f131f7e85b1e7?w=289&h=61&f=gif&s=8828)
 
     <Button
         android:layout_width="300dp"
@@ -409,7 +400,7 @@ In fact, it is basically the same as shape and selector.
         app:bl_unPressed_stroke_color="#98FB98"/>
 
 5.how to use like style
-  
+
 no need to add "app:"
 
     <style name="bg">
@@ -455,7 +446,6 @@ no need to add "app:"
             app:bl_selected_drawable="@drawable/circle_like_pressed"
             app:bl_unSelected_drawable="@drawable/circle_like_normal" />
 
-
 7.FrameAnimation
 ![](https://raw.githubusercontent.com/JavaNoober/BackgroundLibrary/master/test/anim.gif)
 
@@ -490,15 +480,17 @@ No need to add since 1.4.3
     -keep public class com.noober.background.** {*;}
 
 ## Use attention
+
 1、selector的相关属性，如果传入的drawable不是颜色的资源，会覆盖掉shape设置的属性  
 2、在根布局添加
-    
+
         tools:ignore="MissingPrefix"
-  可以防止报红  
+
+可以防止报红  
 3、因为layoutInflater限制了只能有一个factory，如果有其他库已经使用了setFactory方法，比如换肤的库，只需要在其他库调用layoutInflater.setFactory之后调用
 
     BackgroundLibrary.inject2(context);
-    
+
 这样其他的库与本库同样可以生效。  
 4、～～selector一个item表示多个属性，暂时无法实现，如下：～～
 
@@ -511,29 +503,31 @@ No need to add since 1.4.3
 5、fragment使用无需任何处理，其Activity调用inject即可  
 6、listView，recyclerView使用也无需任何处理。
 如果不生效，只需要
-    
+
     //在调用inflate只需调用一次context，保证adapter创建View时传入的是同一个context即可
     BackgroundLibrary.inject(context);
     
     View item = LayoutInflater.from(context).inflate(xxx)
-    
+
 7、自定义View中调用了inflate，同listView一样处理即可
 
-## How to preview  
-![](https://user-gold-cdn.xitu.io/2019/2/15/168ef34a68818a5e?w=981&h=524&f=gif&s=3400624) 
+## How to preview
 
-only need to use BLView to replace View(e.g. TextView to BLTextView, EditText to BLEditText) in layout.xml, don't use BLView in the code.
+![](https://user-gold-cdn.xitu.io/2019/2/15/168ef34a68818a5e?w=981&h=524&f=gif&s=3400624)
+
+only need to use BLView to replace View(e.g. TextView to BLTextView, EditText to BLEditText) in
+layout.xml, don't use BLView in the code.
 
 ## How to use Live Templates
 
 mac:Macintosh HD\user\xxx\Library\Preferences\AndroidStudio3.2\templates
 windows:C:\Users\XXX\.AndroidStudio3.2\config\templates
 
-copy the file [BackgroundLibrary.xml](https://github.com/JavaNoober/BackgroundLibrary/blob/master/BackgroundLibrary.xml) to this directory
+copy the
+file [BackgroundLibrary.xml](https://github.com/JavaNoober/BackgroundLibrary/blob/master/BackgroundLibrary.xml)
+to this directory
 effect：
 ![](https://raw.githubusercontent.com/JavaNoober/BackgroundLibrary/master/test/step5.png)
-
-
 
        Apache License
 
