@@ -13,6 +13,31 @@
         tools:context=".MainActivity"
         tools:ignore="MissingPrefix,HardcodedText">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvTest5"
+                android:layout_width="130dp"
+                android:layout_height="36dp"
+                android:gravity="center"
+                android:text="设置全边框" />
+
+            <com.noober.background.view.BLTextView
+                android:id="@+id/tvTest6"
+                android:layout_width="130dp"
+                android:layout_height="36dp"
+                android:gravity="center"
+                android:text="设置右上下边框"
+                app:bl_solid_color="#E3B666"
+                app:bl_stroke_color="#8c6822"
+                app:bl_stroke_position="top|bottom"
+                app:bl_stroke_width="1dp" />
+        </LinearLayout>
+
         <com.noober.background.view.BLCheckBox
             android:id="@+id/cb_baby_check"
             android:layout_width="wrap_content"
@@ -420,6 +445,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="5dp" />
+
 
         <FrameLayout
             android:id="@+id/fl_content"
