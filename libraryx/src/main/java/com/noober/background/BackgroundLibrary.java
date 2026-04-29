@@ -16,9 +16,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * minSdkVersion最小为14，建议minSdkVersion >= 16
- * 如果minSdkVersion < 16:bl_gradient_angle, bl_gradient_startColor, bl_gradient_centerColor, bl_gradient_endColor会失效，其他正常
- *
+ * minSdkVersion最小为21，建议minSdkVersion 大于等于 16
+ * 如果minSdkVersion 小于 16:bl_gradient_angle, bl_gradient_startColor, bl_gradient_centerColor, bl_gradient_endColor会失效，其他正常
+ * <p>
  * Created by xiaoqi on 2018/9/9
  */
 public class BackgroundLibrary {
