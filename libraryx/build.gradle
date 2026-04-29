@@ -1,4 +1,7 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id "com.vanniktech.maven.publish" version "0.36.0"
+}
 
 android {
     namespace 'com.noober.background'
@@ -6,7 +9,6 @@ android {
     defaultConfig {
         minSdk 21
     }
-
 
     buildTypes {
         release {
@@ -20,26 +22,43 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
     buildToolsVersion '36.1.0'
-    publishing {
-        multipleVariants('release') {
-            withSourcesJar()
-            withJavadocJar()
-            allVariants()
-        }
-    }
-    lint {
-        abortOnError false
-        targetSdk 36
-    }
-    testOptions {
-        targetSdk 36
-    }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly 'androidx.appcompat:appcompat:1.7.1'
-    compileOnly 'androidx.constraintlayout:constraintlayout:2.1.4'
+    compileOnly 'androidx.constraintlayout:constraintlayout:2.2.1'
 }
 
-apply from: '../publication.gradle'
+mavenPublishing {
+    publishToMavenCentral(true)
+    signAllPublications()
+    coordinates("io.github.zzhhz", "BackgroundLibrary", "1.7.8")
+
+    pom {
+        name = "BackgroundLibrary"
+        description = "Base Android Library"
+        inceptionYear = "2025"
+        url = "https://github.com/zzhhz/BackgroundLibrary"
+        licenses {
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+        }
+        developers {
+            developer {
+                id = "zzh_hz@126.com"
+                name = "zzhhz"
+                url = "https://github.com/zzhhz"
+            }
+        }
+        scm {
+            url = "https://github.com/zzhhz/BackgroundLibrary"
+            connection = "scm:git:git://github.com/zzhhz/BackgroundLibrary.git"
+            developerConnection = "scm:git:ssh://github.com:zzhhz/BackgroundLibrary.git"
+        }
+    }
+}
