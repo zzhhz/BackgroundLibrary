@@ -22,11 +22,12 @@ import android.widget.TextView;
 import com.noober.background.drawable.DrawableFactory;
 import com.noober.background.drawable.TextViewFactory;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
@@ -38,8 +39,10 @@ public class BackgroundFactory implements LayoutInflater.Factory2 {
 
 	private static final Class<?>[] sConstructorSignature = new Class[]{Context.class, AttributeSet.class};
 	private static final Object[] mConstructorArgs = new Object[2];
+	private static final Object mConstructorLock = new Object();
 	private static final Map<String, Constructor<? extends View>> sConstructorMap = new ArrayMap<>();
-	private static final HashMap<String, HashMap<String, Method>> methodMap = new HashMap<>();
+	// 使用 WeakHashMap 避免内存泄露，当 ClassLoader 被回收时，对应的条目也会被回收
+	private static final WeakHashMap<Class<?>, Map<String, Method>> methodMap = new WeakHashMap<>();
 
 	@Override
 	public View onCreateView(String name, Context context, AttributeSet attrs) {
@@ -184,18 +187,23 @@ public class BackgroundFactory implements LayoutInflater.Factory2 {
 				String methodName = otherTa.getString(R.styleable.bl_other_bl_function);
 				if (!TextUtils.isEmpty(methodName)) {
 					final Context currentContext = view.getContext();
-					final Class parentClass = currentContext.getClass();
+					final Class<?> parentClass = currentContext.getClass();
 					final Method method = getMethod(parentClass, methodName);
 					if(method != null){
+						// 使用 WeakReference 避免内存泄露
+						final WeakReference<Context> contextRef = new WeakReference<>(currentContext);
 						view.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View view) {
-								try {
-									method.invoke(currentContext);
-								} catch (IllegalAccessException e) {
-									e.printStackTrace();
-								} catch (InvocationTargetException e) {
-									e.printStackTrace();
+								Context context = contextRef.get();
+								if (context != null) {
+									try {
+										method.invoke(context);
+									} catch (IllegalAccessException e) {
+										Log.w("BackgroundLibrary", "Method invocation failed", e);
+									} catch (InvocationTargetException e) {
+										Log.w("BackgroundLibrary", "Method invocation failed", e);
+									}
 								}
 							}
 						});
@@ -224,18 +232,19 @@ public class BackgroundFactory implements LayoutInflater.Factory2 {
 		}
 	}
 
-	private static Method getMethod(Class clazz, String methodName) {
+	private static Method getMethod(Class<?> clazz, String methodName) {
 		Method method = null;
-		HashMap<String, Method> methodHashMap = methodMap.get(clazz.getCanonicalName());
+		Map<String, Method> methodHashMap = methodMap.get(clazz);
 		if (methodHashMap != null) {
-			method = methodMap.get(clazz.getCanonicalName()).get(methodName);
-		} else {
-			methodHashMap = new HashMap<>();
-			methodMap.put(clazz.getCanonicalName(), methodHashMap);
+			method = methodHashMap.get(methodName);
 		}
 		if (method == null) {
 			method = findMethod(clazz, methodName);
 			if (method != null) {
+				if (methodHashMap == null) {
+					methodHashMap = new ArrayMap<>();
+					methodMap.put(clazz, methodHashMap);
+				}
 				methodHashMap.put(methodName, method);
 			}
 		}
@@ -243,7 +252,7 @@ public class BackgroundFactory implements LayoutInflater.Factory2 {
 	}
 
 
-	private static Method findMethod(Class clazz, String methodName) {
+	private static Method findMethod(Class<?> clazz, String methodName) {
 		Method method;
 		try {
 			method = clazz.getMethod(methodName);
@@ -253,7 +262,7 @@ public class BackgroundFactory implements LayoutInflater.Factory2 {
 		return method;
 	}
 
-	private static Method findDeclaredMethod(Class clazz, String methodName) {
+	private static Method findDeclaredMethod(Class<?> clazz, String methodName) {
 		Method method = null;
 		try {
 			method = clazz.getDeclaredMethod(methodName);
@@ -381,11 +390,17 @@ public class BackgroundFactory implements LayoutInflater.Factory2 {
 		Constructor<? extends View> constructor = sConstructorMap.get(name);
 		try {
 			if (constructor == null) {
-				Class<? extends View> clazz = context.getClassLoader().loadClass(
-					prefix != null ? (prefix + name) : name).asSubclass(View.class);
+				// 同步块确保线程安全，避免重复创建 Constructor
+				synchronized (mConstructorLock) {
+					constructor = sConstructorMap.get(name);
+					if (constructor == null) {
+						Class<? extends View> clazz = context.getClassLoader().loadClass(
+							prefix != null ? (prefix + name) : name).asSubclass(View.class);
 
-				constructor = clazz.getConstructor(sConstructorSignature);
-				sConstructorMap.put(name, constructor);
+						constructor = clazz.getConstructor(sConstructorSignature);
+						sConstructorMap.put(name, constructor);
+					}
+				}
 			}
 			constructor.setAccessible(true);
 			return constructor.newInstance(mConstructorArgs);
@@ -409,5 +424,3 @@ public class BackgroundFactory implements LayoutInflater.Factory2 {
 			typedArray.hasValue(R.styleable.background_bl_focused_gradient_startColor);
 	}
 }
-
-

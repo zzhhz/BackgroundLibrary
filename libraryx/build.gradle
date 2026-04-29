@@ -7,7 +7,7 @@ android {
     namespace 'com.noober.background'
     compileSdk 36
     defaultConfig {
-        minSdk 21
+        minSdk 24
     }
 
     buildTypes {
@@ -30,9 +30,10 @@ dependencies {
     compileOnly 'androidx.appcompat:appcompat:1.7.1'
     compileOnly 'androidx.constraintlayout:constraintlayout:2.2.1'
 }
+import com.vanniktech.maven.publish.DeploymentValidation
 
 mavenPublishing {
-    publishToMavenCentral(true)
+    publishToMavenCentral(true, DeploymentValidation.PUBLISHED)
     signAllPublications()
     coordinates("io.github.zzhhz", "BackgroundLibrary", "1.7.8")
 

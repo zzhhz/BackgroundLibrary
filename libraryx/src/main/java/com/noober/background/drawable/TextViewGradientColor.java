@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.noober.background.R;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Author: xiaoqi
  * Date: 2022/8/17 3:14 下午
@@ -42,13 +44,18 @@ public class TextViewGradientColor implements ITextViewOperator{
             }else if(startColor == -1 && endColor != -1){
                 textView.setTextColor(endColor);
             }else if(endColor != -1 && startColor != -1){
+                // 使用 WeakReference 避免 Runnable 持有 TextView 强引用导致内存泄露
+                final WeakReference<TextView> textViewRef = new WeakReference<>(textView);
                 if(orientation == 0){
                     textView.post(new Runnable() {
                         @Override
                         public void run() {
-                            textView.getPaint().setShader(new LinearGradient(0f, 0f, 0f, textView.getPaint().descent() - textView.getPaint().ascent(),
-                                startColor, endColor, Shader.TileMode.REPEAT));
-                            textView.invalidate();
+                            TextView tv = textViewRef.get();
+                            if (tv != null) {
+                                tv.getPaint().setShader(new LinearGradient(0f, 0f, 0f, tv.getPaint().descent() - tv.getPaint().ascent(),
+                                    startColor, endColor, Shader.TileMode.REPEAT));
+                                tv.invalidate();
+                            }
                         }
                     });
 
@@ -56,8 +63,11 @@ public class TextViewGradientColor implements ITextViewOperator{
                     textView.post(new Runnable() {
                         @Override
                         public void run() {
-                            textView.getPaint().setShader(new LinearGradient(0, 0f, textView.getMeasuredWidth(), 0f, startColor, endColor, Shader.TileMode.REPEAT));
-                            textView.invalidate();
+                            TextView tv = textViewRef.get();
+                            if (tv != null) {
+                                tv.getPaint().setShader(new LinearGradient(0, 0f, tv.getMeasuredWidth(), 0f, startColor, endColor, Shader.TileMode.REPEAT));
+                                tv.invalidate();
+                            }
                         }
                     });
                 }
